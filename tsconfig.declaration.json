@@ -18,9 +18,15 @@
   
       /* Linting */
       "strict": false,
-      "noUnusedLocals": true,
-      "noUnusedParameters": true,
-      "noFallthroughCasesInSwitch": true
+      "noImplicitAny": false,
+      "noImplicitThis": false,
+      "strictNullChecks": false,
+      "strictFunctionTypes": false,
+      "noUnusedLocals": false,
+      "noUnusedParameters": false,
+      "noImplicitReturns": false,
+      "allowUnusedLabels": true,
+      "allowUnreachableCode": true
     },
     "include": ["lib/**/*.ts", "lib/**/*.d.ts", "lib/**/*.tsx", "lib/**/*.vue"],
     "references": [{ "path": "./tsconfig.node.json" }]

@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import VueJsx from "@vitejs/plugin-vue-jsx";
 import { visualizer } from "rollup-plugin-visualizer";
+// import BuilTypes from "./build/types";
 
 export default defineConfig(({ command }) => ({
   plugins: [vue(), VueJsx({})],

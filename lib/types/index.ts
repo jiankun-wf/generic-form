@@ -10,6 +10,9 @@ import type { FormActionType } from "./formAction";
 import type { VNodeChild } from "vue";
 
 export interface FormProps {
+  // 统一的v-model后缀值
+  // 默认为 v-model:value
+  modelValueName?: string;
   // 表单收集
   model?: Record<string, any>;
   // 是否展示标签
@@ -17,6 +20,7 @@ export interface FormProps {
   labelWidth?: number | string | "auto";
   labelAlign?: import("./Rule").LabelAlign;
   labelPlacement?: import("./Rule").LabelPlacement;
+  colon?: string;
   //   表单子项
   schemas?: FormSchema[];
   //
@@ -45,29 +49,32 @@ export interface FormProps {
   //   行布局样式
   baseGridStyle?: CSSProperties;
 
-  resetFunc?: () => Promise<void>;
-  submitFunc?: () => Promise<void>;
-  submitOnReset?: boolean;
   collapsedRows?: number;
   // 是否显示必填
   showRequireMark?: boolean;
   // 必填显示位置
   requireMarkPlacement?: import("./Rule").RequiredMarkPlacement;
   // 是否展示校验反馈
-  showFeedback?: boolean;
   validateMessages?: any;
 
   loading?: boolean;
+
+  disabled?: boolean;
+  rules?: { [schemaField: string]: FormItemRule | FormItemRule[] };
 }
 
-export type Return<Result, Arg = any> = (...args: Arg[]) => Result;
+export type Return<Args = undefined, Result = string | VNode> = (
+  arg: Args
+) => Result;
 export interface FormSchema<
   ComponentType = string,
   DefaultValue = unknown,
   ComponentProps = Record<string, any>
 > {
+  // 默认为 v-model后缀值 v-model:value
+  modelValueName?: string;
   field: string; // 表单 将值收集到外层表单 model 对象的路径
-  label?: string | Return<VNode | VNodeChild>; // 标签内容;
+  label?: string | Return<{ colon?: string }, VNode | VNodeChild>; // 标签内容;
   labelWidth?: number | string | "auto"; // 标签宽度
   labelAlign?: import("./Rule").LabelAlign; // 标签对齐位置
   labelPlacement?: import("./Rule").LabelPlacement; // 标签位置
@@ -75,7 +82,7 @@ export interface FormSchema<
   helpMessage?: string;
   //   标签提示信息样式
   helpMessageToolTipProps?: TooltipProps;
-  helpMessageIcon?: Return<VNode>;
+  helpMessageIcon?: Return<undefined, VNode>;
   helpMessageIconProps?: CSSProperties & Record<string, any>;
   //   默认值
   defaultValue?: DefaultValue;
@@ -104,7 +111,10 @@ export interface FormSchema<
   contentRender?: SchemaFunctionalCall<SchemaCallParams, VNode | string>;
   // slot名字； 渲染优先级：关羽（二弟）
   slot?: string;
-  // ...
+  //
+  feedback?: string;
+  first?: boolean;
+  validationStatus?: import("./Rule").ValidateStatus;
 }
 
 export type SchemaCallParams = {

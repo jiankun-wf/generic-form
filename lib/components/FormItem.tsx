@@ -33,6 +33,15 @@ export const FormItem = defineComponent({
       type: Object as PropType<FormActionType>,
       required: true,
     },
+
+    colon: {
+      type: String as PropType<string>,
+      default: undefined,
+    },
+    modelValueName: {
+      type: String as PropType<string>,
+      default: undefined,
+    }
   },
   setup(props, { slots }) {
     const handleUpdateForm = (val: any) => {
@@ -64,12 +73,13 @@ export const FormItem = defineComponent({
 
     const renderComponent = () => {
       const {
-        schema: { component, field },
+        schema: { component, field, modelValueName: itemModelValueName },
         formModel,
         formActionType,
         formValues,
+        modelValueName: formModelValueName,
       } = props;
-      const ComponentRender = ComponentMap.get(component) as Component;
+      const ComponentRender = ComponentMap.get(component) as Component as any;
 
       const componentProps = getComponentProps();
 
@@ -85,12 +95,18 @@ export const FormItem = defineComponent({
           action: formActionType,
           schema: props.schema,
         });
-      }
+      };
+
+      // 绑定v-model事件
+      const realName = itemModelValueName ?? formModelValueName ?? 'value'
+      const vModel = {
+        [realName]: formValues[field],
+        [`onUpdate:${realName}`]: handleUpdateForm.bind(null),
+      };
 
       return (
         <ComponentRender
-          value={formValues[field]}
-          onUpdate:value={handleUpdateForm}
+          {...vModel}
           {...componentProps}
         />
       );
@@ -104,13 +120,14 @@ export const FormItem = defineComponent({
         helpMessageIcon: _Icon,
         helpMessageIconProps: _IconProps,
       } = props.schema;
+      const { colon } = props;
       if (!label) return undefined;
 
       const labelBuild = () => {
         if (typeof label === 'function') {
-          return label();
+          return label({ colon });
         }
-        return label;
+        return `${label}${colon ?? ''}`;
       };
 
       const build = () => {

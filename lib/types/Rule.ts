@@ -8,6 +8,8 @@ export type LabelAlign = "left" | "right";
 
 export type LabelPlacement = "left" | "top";
 
+export type ValidateStatus = "error" | "success" | "warning";
+
 export type ValidateError = {
   error: string;
   body: null | FormValidationError[];

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { BasicForm, type FormSchema, useForm } from "../lib";
-import { NInput, NCard } from "naive-ui";
+import { NCard } from "naive-ui";
 import type { ComponentType } from "./config/components";
 // import { onMounted } from 'vue';
 
@@ -15,8 +15,7 @@ const schemas: FormSchema<ComponentType>[] = [
     componentProps: {
       placeholder: "请输入姓名",
     },
-    show: false,
-    rule: [{ required: true, message: "请输入姓名", key: "name-required" }],
+    rule: [{ required: false, message: "请输入姓名", key: "name-required" }],
     slot: "name",
   },
   {
@@ -52,12 +51,9 @@ const schemas: FormSchema<ComponentType>[] = [
           value: 2,
         },
       ],
-      "onUpdate:value": (val: number, item: Record<string, any>) => {
-        const { setFieldsValue, removeFormSchema } = action;
+      "onUpdate:value": (_val: number, item: Record<string, any>) => {
+        const { setFieldsValue } = action;
         setFieldsValue({ name: item.label });
-        if (val === 2) {
-          removeFormSchema("name2");
-        }
       },
     }),
   },
@@ -84,6 +80,16 @@ const schemas: FormSchema<ComponentType>[] = [
     defaultValue: "#FFFFFF",
     colProps: { span: 1 },
   },
+  {
+    field: "name2",
+    component: "ElInput",
+    modelValueName: "modelValue",
+    label: "element",
+    colProps: { span: 1 },
+    componentProps: {
+      placeholder: "哈哈哈",
+    },
+  },
 ];
 
 const [register, {}] = useForm({
@@ -92,10 +98,9 @@ const [register, {}] = useForm({
   layout: "horizontal",
   submitButtonText: "提交预约",
   schemas,
-  showLabel: true,
   labelPlacement: "left",
   inline: false,
-  size: "small",
+  size: "medium",
 });
 
 function handleSubmit(values: Record<string, any>) {
@@ -124,9 +129,6 @@ function handleReset(values: Record<string, any>) {
           @submit="handleSubmit"
           @reset="handleReset"
         >
-          <template #name="{ model, field }">
-            <NInput v-model:value="model[field]" />
-          </template>
         </BasicForm>
       </div>
     </NCard>

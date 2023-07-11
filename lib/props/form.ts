@@ -1,13 +1,22 @@
-import type { ButtonProps, GridItemProps, GridProps } from 'naive-ui';
-import type { FormSchema } from '../types';
-import type { PropType, CSSProperties } from 'vue';
-import type { FormSize, LabelPlacement, RequiredMarkPlacement } from '../types/Rule';
+import type {
+  ButtonProps,
+  FormItemRule,
+  GridItemProps,
+  GridProps,
+} from "naive-ui";
+import type { FormSchema } from "../types";
+import type { PropType, CSSProperties } from "vue";
+import type {
+  FormSize,
+  LabelPlacement,
+  RequiredMarkPlacement,
+} from "../types/Rule";
 
 export const BasicFormPorps = {
   // 标签宽度  固定宽度
   labelWidth: {
     type: [Number, String] as PropType<number | string>,
-    default: 'auto',
+    default: "auto",
   },
   // 表单配置规则
   schemas: {
@@ -17,7 +26,7 @@ export const BasicFormPorps = {
   //布局方式
   layout: {
     type: String,
-    default: 'inline',
+    default: "inline",
   },
   //是否展示为行内表单
   inline: {
@@ -27,12 +36,12 @@ export const BasicFormPorps = {
   //大小
   size: {
     type: String as PropType<FormSize>,
-    default: 'medium',
+    default: "medium",
   },
   //标签位置
   labelPlacement: {
     type: String as PropType<LabelPlacement>,
-    default: 'left',
+    default: "left",
   },
   //是否显示操作按钮（查询/重置）
   showActionButtonGroup: {
@@ -47,7 +56,7 @@ export const BasicFormPorps = {
   //重置按钮配置
   resetButtonOptions: {
     type: Object as PropType<Partial<ButtonProps>>,
-    default: { type: 'default' },
+    default: { type: "default" },
   },
   // 显示确认按钮
   showSubmitButton: {
@@ -57,7 +66,7 @@ export const BasicFormPorps = {
   // 确认按钮配置
   submitButtonProps: {
     type: Object as PropType<Partial<ButtonProps>>,
-    default: { type: 'primary' },
+    default: { type: "primary" },
   },
   //展开收起按钮
   showAdvancedButton: {
@@ -67,12 +76,12 @@ export const BasicFormPorps = {
   // 确认按钮文字
   submitButtonText: {
     type: String,
-    default: '查询',
+    default: "查询",
   },
   //重置按钮文字
   resetButtonText: {
     type: String,
-    default: '重置',
+    default: "重置",
   },
   //grid 配置
   gridProps: {
@@ -106,6 +115,28 @@ export const BasicFormPorps = {
   },
   requireMarkPlacement: {
     type: String as PropType<RequiredMarkPlacement>,
-    default: 'left',
+    default: "left",
+  },
+  // label后缀：
+  colon: {
+    type: String as PropType<string>,
+    default: undefined,
+  },
+  // 禁用
+  disabled: {
+    type: Boolean as PropType<boolean>,
+    default: false,
+  },
+  // rules
+  rules: {
+    type: Object as PropType<{
+      [schemaField: string]: FormItemRule | FormItemRule[];
+    }>,
+    default: undefined,
+  },
+  //
+  modelValueName: {
+    type: String as PropType<string>,
+    default: "value",
   },
 };

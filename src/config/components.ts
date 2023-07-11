@@ -21,5 +21,5 @@ export type ComponentType =
   | "AutoComplete"
   | "DynamicTags"
   | "DynamicInput"
-  | "Divider";
-
+  | "Divider"
+  | "ElInput";

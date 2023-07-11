@@ -16,6 +16,7 @@
     "@types/node": "^20.4.1",
     "@vitejs/plugin-vue": "^4.2.3",
     "@vitejs/plugin-vue-jsx": "^3.0.1",
+    "element-plus": "^2.3.7",
     "rollup-plugin-visualizer": "^5.9.2",
     "ts-morph": "^19.0.0",
     "typescript": "^5.0.2",

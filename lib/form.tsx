@@ -131,11 +131,12 @@ const BasicForm = defineComponent({
 
     const renderDivider = (schema: FormSchema) => {
       const { colProps, component, label, componentProps = {} } = schema;
+      const { colon } = unref(getFormProps);
 
       const { getIfShow, getIsShow } = getShow(schema, formValues);
       const itemColProps = getColProps({ colProps, component, getIfShow });
 
-      const title = isFunction(label) ? label() : label;
+      const title = isFunction(label) ? label({ colon }) : label;
 
       return (
         <NGridItem
@@ -151,6 +152,8 @@ const BasicForm = defineComponent({
     //  内容渲染
     const renderFormItemContent = (schema: FormSchema) => {
       const { contentRender, field, colProps, component, slot } = schema;
+      const { colon, modelValueName } = unref(getFormProps);
+
       if (component === 'Divider') {
         return renderDivider(schema);
       }
@@ -182,6 +185,8 @@ const BasicForm = defineComponent({
             formModel={formModel}
             formValues={formValues}
             formActionType={formActionType}
+            colon={colon}
+            modelValueName={modelValueName}
           >
             {itemSlots}
           </FormItem>
