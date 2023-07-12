@@ -22,7 +22,7 @@ export const Layout = defineComponent({
                 <LayoutHeader />
             </NLayoutHeader>
             <NLayout hasSider position="absolute" class="!top-57px">
-                <NLayoutSider collapsed={unref(collapsed)} onUpdate:collapsed={tollgeCollapsed} bordered width={220} collapsedWidth={48} show-trigger>
+                <NLayoutSider collapsed={unref(collapsed)} onUpdate:collapsed={tollgeCollapsed} bordered width={220} collapsedWidth={12} show-trigger>
                   <LayoutMenu collapsed={unref(collapsed)} />
                 </NLayoutSider>
                 <NLayoutContent style={{ padding: '16px' }}>

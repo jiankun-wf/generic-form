@@ -30,7 +30,7 @@ export const LayoutMenu = defineComponent({
        ]
 
        return () => (
-         <NMenu collapsed={props.collapsed} options={menuOptions} collapsedWidth={48}>
+         <NMenu collapsed={props.collapsed} options={menuOptions} collapsedWidth={12}>
 
          </NMenu>
        ) 
