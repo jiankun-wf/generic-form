@@ -1,5 +1,5 @@
 import type {
-  ButtonProps,
+  // ButtonProps,
   FormItemRule,
   GridItemProps,
   GridProps,
@@ -43,46 +43,46 @@ export const BasicFormPorps = {
     type: String as PropType<LabelPlacement>,
     default: "left",
   },
-  //是否显示操作按钮（查询/重置）
-  showActionButtonGroup: {
-    type: Boolean as PropType<boolean>,
-    default: true,
-  },
-  // 显示重置按钮
-  showResetButton: {
-    type: Boolean as PropType<boolean>,
-    default: true,
-  },
-  //重置按钮配置
-  resetButtonOptions: {
-    type: Object as PropType<Partial<ButtonProps>>,
-    default: { type: "default" },
-  },
-  // 显示确认按钮
-  showSubmitButton: {
-    type: Boolean as PropType<boolean>,
-    default: true,
-  },
-  // 确认按钮配置
-  submitButtonProps: {
-    type: Object as PropType<Partial<ButtonProps>>,
-    default: { type: "primary" },
-  },
-  //展开收起按钮
-  showAdvancedButton: {
-    type: Boolean as PropType<boolean>,
-    default: true,
-  },
-  // 确认按钮文字
-  submitButtonText: {
-    type: String,
-    default: "查询",
-  },
-  //重置按钮文字
-  resetButtonText: {
-    type: String,
-    default: "重置",
-  },
+  // //是否显示操作按钮（查询/重置）
+  // showActionButtonGroup: {
+  //   type: Boolean as PropType<boolean>,
+  //   default: true,
+  // },
+  // // 显示重置按钮
+  // showResetButton: {
+  //   type: Boolean as PropType<boolean>,
+  //   default: true,
+  // },
+  // //重置按钮配置
+  // resetButtonOptions: {
+  //   type: Object as PropType<Partial<ButtonProps>>,
+  //   default: { type: "default" },
+  // },
+  // // 显示确认按钮
+  // showSubmitButton: {
+  //   type: Boolean as PropType<boolean>,
+  //   default: true,
+  // },
+  // // 确认按钮配置
+  // submitButtonProps: {
+  //   type: Object as PropType<Partial<ButtonProps>>,
+  //   default: { type: "primary" },
+  // },
+  // //展开收起按钮
+  // showAdvancedButton: {
+  //   type: Boolean as PropType<boolean>,
+  //   default: true,
+  // },
+  // // 确认按钮文字
+  // submitButtonText: {
+  //   type: String,
+  //   default: "查询",
+  // },
+  // //重置按钮文字
+  // resetButtonText: {
+  //   type: String,
+  //   default: "重置",
+  // },
   //grid 配置
   gridProps: {
     type: Object as PropType<GridProps>,

@@ -24,7 +24,7 @@ import {
   NDynamicInput,
 } from "naive-ui";
 
-import ElInput from "element-plus";
+// import { ElInput } from "element-plus";
 
 export const registerFormComponents = () => {
   buildComponentMap<ComponentType>([
@@ -50,6 +50,6 @@ export const registerFormComponents = () => {
     ["DynamicTags", NDynamicTags],
     ["DynamicInput", NDynamicInput],
     ["Divider", NDivider],
-    ["ElInput", ElInput],
+    // ["ElInput", ElInput],
   ]);
 };

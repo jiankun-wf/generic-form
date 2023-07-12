@@ -1,7 +1,7 @@
 import type {
   FormItemRule,
   GridItemProps,
-  ButtonProps,
+  // ButtonProps,
   GridProps,
   TooltipProps,
 } from "naive-ui";
@@ -29,21 +29,21 @@ export interface FormProps {
   //   表单以及内部组件大小
   size?: import("./Rule").FormSize;
   //   是否展示功能Button组
-  showActionButtonGroup?: boolean;
-  // 是否展示重置按钮
-  showResetButton?: boolean;
-  //   重置按钮Props
-  resetButtonOptions?: Partial<ButtonProps>;
-  //   是否展示提交按钮
-  showSubmitButton?: boolean;
-  // 提交按钮props
-  submitButtonOptions?: Partial<ButtonProps>;
-  // 展示收起展开按钮
-  showAdvancedButton?: boolean;
-  // 提交按钮text
-  submitButtonText?: string;
-  // 重置按钮text
-  resetButtonText?: string;
+  // showActionButtonGroup?: boolean;
+  // // 是否展示重置按钮
+  // showResetButton?: boolean;
+  // //   重置按钮Props
+  // resetButtonOptions?: Partial<ButtonProps>;
+  // //   是否展示提交按钮
+  // showSubmitButton?: boolean;
+  // // 提交按钮props
+  // submitButtonOptions?: Partial<ButtonProps>;
+  // // 展示收起展开按钮
+  // showAdvancedButton?: boolean;
+  // // 提交按钮text
+  // submitButtonText?: string;
+  // // 重置按钮text
+  // resetButtonText?: string;
   //   行布局规则
   gridProps?: GridProps;
   //   行布局样式
