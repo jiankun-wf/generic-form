@@ -1,18 +1,70 @@
-# Vue 3 + TypeScript + Vite
+# generic-form 0.3.5
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## 表单页面急速构建工具组件
 
-## Recommended IDE Setup
+## [文档](https://generic-form-docs.netlify.app "文档")
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## [DEMO](https://codesandbox.io/p/sandbox/elated-solomon-uqfc8e?file=%2Fsrc%2FApp.vue)
 
-## Type Support For `.vue` Imports in TS
+## 用法
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+#### 1. 引入
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+` npm install vue-generic-form-next --save`
+`yarn add vue-generic-form-next -D`
+`pnpm add vue-generic-form-next -D`
 
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+#### 2. 使用，以 element-plus 为例（推荐 naive-ui 组件库，适配性更好）
+
+1.  入口文件中配置好组件映射
+
+```javascript
+import { buildComponentMap } from "vue-generic-form-next";
+import { ElInput, ElSelect } from "element-plus";
+type ComponentType = "Input" | "Select";
+buildComponentMap <
+  ComponentType >
+  [
+    ["Input", ElInput],
+    ["Select", ElSelect],
+  ];
+```
+
+2.  在页面中使用
+
+```javascript
+ <script setup lang="ts">
+   import { BasicForm, useForm } from 'vue-generic-form-next'
+   import { type FormSchema } from 'vue-generic-form-next'
+
+    const schemas: FormSchema<'Input' | 'Select'>[] = [
+      {
+        field: "name",
+        component: "Input",
+        label: "姓名",
+        defaultValue: "PC",
+        helpMessage: "这是一个提示",
+        colProps: { span: 1 },
+        componentProps: {
+          placeholder: "请输入姓名",
+        },
+        rule: [{ required: true, message: "请输入姓名" }],
+      },
+    ];
+
+    const [registerForm, {}] = useForm({
+      gridProps: { cols: 2, xGap: 10 },
+      labelWidth: "100px",
+      layout: "horizontal",
+      schemas,
+      labelPlacement: "left",
+      inline: false,
+      size: "medium",
+    });
+ </script>
+ <template>
+   <BasicForm @register="registerForm"  />
+ </template>
+```
+
+3. 以上示例中，我们创建了一个基本的两列的栅格 Form，有一个输入框绑定 name 的值。
