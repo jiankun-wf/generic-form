@@ -7,38 +7,47 @@ import {
   renderSlot,
   onMounted,
   reactive,
-} from 'vue';
+} from "vue";
 // props;
-import { BasicFormPorps } from './props/form';
+import { BasicFormPorps } from "./props/form";
 // utils;
-import { deepMerge } from './helper/index';
-import { getColProps, getShow } from './helper/render';
-import { isFunction } from './helper/is';
+import { deepMerge } from "./helper/index";
+import { getColProps, getShow } from "./helper/render";
+import { isFunction } from "./helper/is";
 // components
-import { FormItem } from './components/FormItem';
-import { NForm as Form, NGrid as Grid, NDivider, NGridItem, NSpin } from 'naive-ui';
+import { FormItem } from "./components/FormItem";
+import {
+  NForm as Form,
+  NGrid as Grid,
+  NDivider,
+  NGridItem,
+  NSpin,
+  NConfigProvider,
+} from "naive-ui";
 // hooks
-import { useFormRef } from './hooks/useFormRef';
-import { useFormLoading } from './hooks/useFormLoading';
-import { useFormDefaultValue } from './hooks/useFormDefaultValue';
-import { useFormSchema } from './hooks/useFormSchema';
-import { useFormValues } from './hooks/useFormValues';
-import { useFormEvent } from './hooks/useFormEvent';
+import { useFormRef } from "./hooks/useFormRef";
+import { useFormLoading } from "./hooks/useFormLoading";
+import { useFormDefaultValue } from "./hooks/useFormDefaultValue";
+import { useFormSchema } from "./hooks/useFormSchema";
+import { useFormValues } from "./hooks/useFormValues";
+import { useFormEvent } from "./hooks/useFormEvent";
 // types
-import type { FormActionType } from './types/formAction';
-import type { FormProps, FormSchema } from './types';
+import type { FormActionType } from "./types/formAction";
+import type { FormProps, FormSchema } from "./types";
+import type { GridProps } from "naive-ui";
+import type { CSSProperties } from "vue";
 
 const BasicForm = defineComponent({
-  name: 'NaiveBasicForm',
+  name: "NaiveBasicForm",
   props: BasicFormPorps,
   emits: [
-    'register',
-    'schema-change',
-    'validate-error',
-    'submit',
-    'collapse-change',
-    'reset',
-    'clear-validate',
+    "register",
+    "schema-change",
+    "validate-error",
+    "submit",
+    "collapse-change",
+    "reset",
+    "clear-validate",
   ],
   setup(props, { attrs, emit, slots }) {
     // formModel
@@ -51,17 +60,18 @@ const BasicForm = defineComponent({
     // 是否为展开
     const gridCollapsed = ref(false);
     // form属性 合并
-    const getFormProps = computed<FormProps & Record<string, any>>(() => ({
+    const getFormProps = computed(() => ({
       ...attrs,
       ...props,
       ...unref(formPropsRef),
-    }));
+    } as unknown as FormProps & Record<string, any>));
     //  布局属性
-    const getGridProps = computed(() => {
+    const getGridProps = computed<GridProps & { style?: CSSProperties }>(() => {
       const { gridProps = {}, baseGridStyle = undefined } = unref(getFormProps);
       return {
         ...gridProps,
         style: baseGridStyle,
+        responsive: "screen",
         collapsed: unref(gridCollapsed),
       };
     });
@@ -88,26 +98,32 @@ const BasicForm = defineComponent({
       defaultValueRef,
     });
 
-    const { addFormSchema, updateFormSchema, removeFormSchema, getFormSchemas, resetFormSchema } =
-      useFormSchema({
-        schemaRef,
-        formProps: getFormProps,
-        emit,
-        defaultValue: defaultValueRef,
-        initDefault,
-        formModel,
-        getSchema: getFormSchema,
-        isInitDefaultValue,
-      });
-
-    const { validate, clearValidate, resetFields, validateFields } = useFormEvent({
+    const {
+      addFormSchema,
+      updateFormSchema,
+      removeFormSchema,
+      getFormSchemas,
+      resetFormSchema,
+    } = useFormSchema({
+      schemaRef,
+      formProps: getFormProps,
       emit,
-      formRef,
+      defaultValue: defaultValueRef,
+      initDefault,
       formModel,
-      formValues,
-      defaultValueRef,
-      getFieldsValue,
+      getSchema: getFormSchema,
+      isInitDefaultValue,
     });
+
+    const { validate, clearValidate, resetFields, validateFields } =
+      useFormEvent({
+        emit,
+        formRef,
+        formModel,
+        formValues,
+        defaultValueRef,
+        getFieldsValue,
+      });
 
     const setProps = async (formProps: Partial<FormProps>) => {
       formPropsRef.value = deepMerge(unref(formPropsRef) || {}, formProps);
@@ -122,7 +138,7 @@ const BasicForm = defineComponent({
       removeFormSchema: removeFormSchema.bind(null),
       getFormSchemas: getFormSchemas.bind(null),
       resetFormSchema: resetFormSchema.bind(null),
-      getFieldsValue: getFieldsValue.bind(null), 
+      getFieldsValue: getFieldsValue.bind(null),
       validate: validate.bind(null),
       clearValidate: clearValidate.bind(null),
       resetFields: resetFields.bind(null),
@@ -142,7 +158,7 @@ const BasicForm = defineComponent({
         <NGridItem
           {...itemColProps}
           key={schema.field}
-          style={{ display: getIsShow ? undefined : 'none' }}
+          style={{ display: getIsShow ? undefined : "none" }}
         >
           <NDivider {...componentProps}>{title}</NDivider>
         </NGridItem>
@@ -154,7 +170,7 @@ const BasicForm = defineComponent({
       const { contentRender, field, colProps, component, slot } = schema;
       const { colon, modelValueName } = unref(getFormProps);
 
-      if (component === 'Divider') {
+      if (component === "Divider") {
         return renderDivider(schema);
       }
 
@@ -177,7 +193,7 @@ const BasicForm = defineComponent({
         <NGridItem
           {...itemColProps}
           key={schema.field}
-          style={{ display: getIsShow ? undefined : 'none' }}
+          style={{ display: getIsShow ? undefined : "none" }}
         >
           <FormItem
             schema={schema}
@@ -195,22 +211,32 @@ const BasicForm = defineComponent({
     };
 
     onMounted(() => {
-      emit('register', formActionType);
+      emit("register", formActionType);
     });
 
     return () => (
-      <Form {...unref(getFormProps)} ref={createFormRef as any} model={formModel}>
-        <NSpin show={unref(formLoading)}>
-          {/* 表单头部插槽 */}
-          {slots.header && <div class="form-header">{renderSlot(slots, 'header')}</div>}
-          {/* 布局表单渲染 */}
-          <Grid {...unref(getGridProps)}>
-            {unref(getFormSchema).map((schema) => renderFormItemContent(schema))}
-          </Grid>
-          {/* TODO 提交、重置、展开收缩 */}
-          {/* .... */}
-        </NSpin>
-      </Form>
+      <NConfigProvider abstract breakpoints={unref(getFormProps).breakpoints}>
+        <Form
+          {...unref(getFormProps)}
+          ref={createFormRef as any}
+          model={formModel}
+        >
+          <NSpin show={unref(formLoading)}>
+            {/* 表单头部插槽 */}
+            {slots.header && (
+              <div class="form-header">{renderSlot(slots, "header")}</div>
+            )}
+            {/* 布局表单渲染 */}
+            <Grid {...unref(getGridProps)}>
+              {unref(getFormSchema).map((schema) =>
+                renderFormItemContent(schema)
+              )}
+            </Grid>
+            {/* TODO 提交、重置、展开收缩 */}
+            {/* .... */}
+          </NSpin>
+        </Form>
+      </NConfigProvider>
     );
   },
 });

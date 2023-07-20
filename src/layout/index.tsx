@@ -4,6 +4,7 @@ import { LayoutHeader } from './Header';
 import { LayoutMenu } from './Menu'
 import { shallowRef } from "vue";
 import { unref } from "vue";
+import { View } from "./View";
 
 
 export const Layout = defineComponent({
@@ -26,7 +27,7 @@ export const Layout = defineComponent({
                   <LayoutMenu collapsed={unref(collapsed)} />
                 </NLayoutSider>
                 <NLayoutContent style={{ padding: '16px' }}>
-                    12313
+                    <View />
                 </NLayoutContent>
             </NLayout>
         </NLayout>

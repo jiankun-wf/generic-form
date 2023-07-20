@@ -11,6 +11,8 @@ import type {
   LabelPlacement,
   RequiredMarkPlacement,
 } from "../types/Rule";
+import { ExtractThemeOverrides, Theme } from "naive-ui/es/_mixins/use-theme";
+import { GlobalThemeWithoutCommon } from "naive-ui/es/config-provider/src/internal-interface";
 
 export const BasicFormPorps = {
   // 标签宽度  固定宽度
@@ -138,5 +140,60 @@ export const BasicFormPorps = {
   modelValueName: {
     type: String as PropType<string>,
     default: "value",
+  },
+  breakpoints: {
+    type: Object as PropType<{ [screenWidth: string]: number }>,
+    default: {
+      xs: 0,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      "2xl": 1536,
+      "2k": 2440,
+      "4k": 3960,
+    },
+  },
+  themeOverrides: {
+    type: Object as PropType<
+      ExtractThemeOverrides<
+        Theme<
+          Pick<GlobalThemeWithoutCommon, "Form">,
+          {
+            blankHeightSmall: string;
+            blankHeightMedium: string;
+            blankHeightLarge: string;
+            lineHeight: string;
+            labelTextColor: string;
+            asteriskColor: string;
+            feedbackTextColorError: string;
+            feedbackTextColorWarning: string;
+            feedbackTextColor: string;
+            feedbackPadding: string;
+            feedbackHeightSmall: string;
+            feedbackHeightMedium: string;
+            feedbackHeightLarge: string;
+            feedbackFontSizeSmall: string;
+            feedbackFontSizeMedium: string;
+            feedbackFontSizeLarge: string;
+            labelFontSizeLeftSmall: string;
+            labelFontSizeLeftMedium: string;
+            labelFontSizeLeftLarge: string;
+            labelFontSizeTopSmall: string;
+            labelFontSizeTopMedium: string;
+            labelFontSizeTopLarge: string;
+            labelHeightSmall: string;
+            labelHeightMedium: string;
+            labelHeightLarge: string;
+            labelPaddingVertical: string;
+            labelPaddingHorizontal: string;
+            labelTextAlignVertical: string;
+            labelTextAlignHorizontal: string;
+            labelFontWeight: string;
+          }
+        >
+      >
+    >,
+    default: undefined,
   },
 };

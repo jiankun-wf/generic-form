@@ -26,6 +26,7 @@
     "typescript": "^5.0.2",
     "unocss": "^0.53.5",
     "vite": "^4.4.0",
+    "vue-router": "^4.2.4",
     "vue-tsc": "^1.8.3"
   }
 }

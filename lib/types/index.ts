@@ -5,6 +5,10 @@ import type {
   GridProps,
   TooltipProps,
 } from "naive-ui";
+import { ExtractThemeOverrides } from "naive-ui/es/_mixins/use-theme";
+import { GlobalThemeWithoutCommon } from "naive-ui/es/config-provider/src/internal-interface";
+import { Theme } from "naive-ui/es/_mixins/use-theme";
+
 import type { CSSProperties, VNode } from "vue";
 import type { FormActionType } from "./formAction";
 import type { VNodeChild } from "vue";
@@ -61,11 +65,64 @@ export interface FormProps {
 
   disabled?: boolean;
   rules?: { [schemaField: string]: FormItemRule | FormItemRule[] };
+  // 断点
+  breakpoints?: { [screenWidth: string]: number };
+  // 主题
+  themeOverrides?: ExtractThemeOverrides<
+    Theme<
+      Pick<GlobalThemeWithoutCommon, "Form">,
+      {
+        blankHeightSmall: string;
+        blankHeightMedium: string;
+        blankHeightLarge: string;
+        lineHeight: string;
+        labelTextColor: string;
+        asteriskColor: string;
+        feedbackTextColorError: string;
+        feedbackTextColorWarning: string;
+        feedbackTextColor: string;
+        feedbackPadding: string;
+        feedbackHeightSmall: string;
+        feedbackHeightMedium: string;
+        feedbackHeightLarge: string;
+        feedbackFontSizeSmall: string;
+        feedbackFontSizeMedium: string;
+        feedbackFontSizeLarge: string;
+        labelFontSizeLeftSmall: string;
+        labelFontSizeLeftMedium: string;
+        labelFontSizeLeftLarge: string;
+        labelFontSizeTopSmall: string;
+        labelFontSizeTopMedium: string;
+        labelFontSizeTopLarge: string;
+        labelHeightSmall: string;
+        labelHeightMedium: string;
+        labelHeightLarge: string;
+        labelPaddingVertical: string;
+        labelPaddingHorizontal: string;
+        labelTextAlignVertical: string;
+        labelTextAlignHorizontal: string;
+        labelFontWeight: string; // label 字重
+      }
+    >
+  >;
 }
 
 export type Return<Args = undefined, Result = string | VNode> = (
   arg: Args
 ) => Result;
+export type SchemaCallParams = {
+  model: Readonly<Record<string, any>>;
+  readonly field: string;
+  readonly values: Readonly<Record<string, any>>;
+  readonly action: FormActionType;
+  readonly schema: FormSchema;
+};
+
+export type SchemaFunctionalCall<
+  Params = SchemaCallParams,
+  Render = VNode,
+  ExtraArg = any
+> = (params: Params, ...args: ExtraArg[]) => Render;
 export interface FormSchema<
   ComponentType = string,
   DefaultValue = unknown,
@@ -116,20 +173,6 @@ export interface FormSchema<
   first?: boolean;
   validationStatus?: import("./Rule").ValidateStatus;
 }
-
-export type SchemaCallParams = {
-  model: Readonly<Record<string, any>>;
-  readonly field: string;
-  readonly values: Readonly<Record<string, any>>;
-  readonly action: FormActionType;
-  readonly schema: FormSchema;
-};
-
-export type SchemaFunctionalCall<
-  Params = SchemaCallParams,
-  Render = VNode,
-  ExtraArg = any
-> = (params: Params, ...args: ExtraArg[]) => Render;
 
 export type SetFormValue = <T = any>(
   key: string,

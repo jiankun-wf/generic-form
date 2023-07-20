@@ -22,12 +22,10 @@
 import { buildComponentMap } from "vue-generic-form-next";
 import { ElInput, ElSelect } from "element-plus";
 type ComponentType = "Input" | "Select";
-buildComponentMap <
-  ComponentType >
-  [
+buildComponentMap<ComponentType>([
     ["Input", ElInput],
     ["Select", ElSelect],
-  ];
+  ]);
 ```
 
 2.  在页面中使用
