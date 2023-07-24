@@ -7,3 +7,14 @@
  body {
    background-color: #f4f4f4; 
  }
+ p {
+   margin: 1rem 0;
+ }
+
+ h1 {
+  margin: 28px 0 20px;
+ }
+
+ h1.first {
+  margin-top: 0;
+ }

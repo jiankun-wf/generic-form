@@ -1,6 +1,6 @@
 import { NConfigProvider, NMessageProvider } from "naive-ui";
 import { defineComponent } from "vue";
-import { Layout } from './layout/index';
+import { RouterView } from "vue-router";
  
 export const App = defineComponent({
     name: 'App',
@@ -8,7 +8,7 @@ export const App = defineComponent({
       return () => (
         <NConfigProvider inlineThemeDisabled>
         <NMessageProvider>
-            <Layout />
+            <RouterView />
       </NMessageProvider> 
       </NConfigProvider> 
       ) 
