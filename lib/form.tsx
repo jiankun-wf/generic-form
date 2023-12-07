@@ -19,10 +19,10 @@ import { FormItem } from "./components/FormItem";
 import {
   NForm as Form,
   NGrid as Grid,
-  NDivider,
   NGridItem,
   NSpin,
   NConfigProvider,
+  NFormItem,
 } from "naive-ui";
 // hooks
 import { useFormRef } from "./hooks/useFormRef";
@@ -31,6 +31,7 @@ import { useFormDefaultValue } from "./hooks/useFormDefaultValue";
 import { useFormSchema } from "./hooks/useFormSchema";
 import { useFormValues } from "./hooks/useFormValues";
 import { useFormEvent } from "./hooks/useFormEvent";
+import { useFormCollapse } from "./hooks/useFormCollapse";
 // types
 import type { FormActionType } from "./types/formAction";
 import type { FormProps, FormSchema } from "./types";
@@ -56,20 +57,32 @@ const BasicForm = defineComponent({
     const formPropsRef = ref<Partial<FormProps>>({});
     const schemaRef = ref<null | FormSchema[]>(null);
     const defaultValueRef = ref<Record<string, any>>({});
-
-    // 是否为展开
-    const gridCollapsed = ref(false);
     // form属性 合并
-    const getFormProps = computed(() => ({
-      ...attrs,
-      ...props,
-      ...unref(formPropsRef),
-    } as unknown as FormProps & Record<string, any>));
+    const getFormProps = computed(
+      () =>
+        ({
+          ...attrs,
+          ...props,
+          ...unref(formPropsRef),
+        } as unknown as FormProps & Record<string, any>)
+    );
+    // 是否为展开
+    const gridCollapsed = ref(
+      unref(getFormProps).canCollapse
+        ? unref(getFormProps).collapsed ?? false
+        : false
+    );
     //  布局属性
     const getGridProps = computed<GridProps & { style?: CSSProperties }>(() => {
-      const { gridProps = {}, baseGridStyle = undefined } = unref(getFormProps);
+      const {
+        gridProps = {},
+        baseGridStyle = undefined,
+        collapsedRows,
+      } = unref(getFormProps);
+
       return {
         ...gridProps,
+        collapsedRows,
         style: baseGridStyle,
         responsive: "screen",
         collapsed: unref(gridCollapsed),
@@ -125,6 +138,12 @@ const BasicForm = defineComponent({
         getFieldsValue,
       });
 
+    const { collapse: doCollapse } = useFormCollapse({
+      state: gridCollapsed,
+      formProps: getFormProps,
+      emit,
+    });
+
     const setProps = async (formProps: Partial<FormProps>) => {
       formPropsRef.value = deepMerge(unref(formPropsRef) || {}, formProps);
     };
@@ -143,26 +162,7 @@ const BasicForm = defineComponent({
       clearValidate: clearValidate.bind(null),
       resetFields: resetFields.bind(null),
       validateFields: validateFields.bind(null),
-    };
-
-    const renderDivider = (schema: FormSchema) => {
-      const { colProps, component, label, componentProps = {} } = schema;
-      const { colon } = unref(getFormProps);
-
-      const { getIfShow, getIsShow } = getShow(schema, formValues);
-      const itemColProps = getColProps({ colProps, component, getIfShow });
-
-      const title = isFunction(label) ? label({ colon }) : label;
-
-      return (
-        <NGridItem
-          {...itemColProps}
-          key={schema.field}
-          style={{ display: getIsShow ? undefined : "none" }}
-        >
-          <NDivider {...componentProps}>{title}</NDivider>
-        </NGridItem>
-      );
+      collapse: doCollapse.bind(null),
     };
 
     //  内容渲染
@@ -170,11 +170,7 @@ const BasicForm = defineComponent({
       const { contentRender, field, colProps, component, slot } = schema;
       const { colon, modelValueName } = unref(getFormProps);
 
-      if (component === "Divider") {
-        return renderDivider(schema);
-      }
-
-      const { getIfShow, getIsShow } = getShow(schema, readonly(formModel));
+      const { getIfShow } = getShow(schema, readonly(formModel));
       //  contentRender 为优先级最高的自定义渲染
       if (contentRender && isFunction(contentRender) && getIfShow) {
         return contentRender({
@@ -183,6 +179,8 @@ const BasicForm = defineComponent({
           field,
           action: formActionType,
           schema,
+          Grid: NGridItem,
+          FormItem: NFormItem,
         });
       }
 
@@ -190,11 +188,7 @@ const BasicForm = defineComponent({
       const itemSlots = slot && slots[slot] ? { [field]: slots[slot] } : {};
 
       return (
-        <NGridItem
-          {...itemColProps}
-          key={schema.field}
-          style={{ display: getIsShow ? undefined : "none" }}
-        >
+        <NGridItem {...itemColProps} key={schema.field}>
           <FormItem
             schema={schema}
             setFormModel={setFieldValue}
@@ -206,6 +200,43 @@ const BasicForm = defineComponent({
           >
             {itemSlots}
           </FormItem>
+        </NGridItem>
+      );
+    };
+
+    // 功能按钮组渲染
+    const renderFormButtonGroup = () => {
+      const { showActions, actionGridProps } = unref(getFormProps);
+      if (!showActions) return null;
+
+      return (
+        <NGridItem
+          {...actionGridProps}
+          suffix={unref(getFormProps).canCollapse}
+        >
+          {{
+            default: ({ overflow }: { overflow: boolean }) => (
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-end",
+                  rowGap: "12px",
+                }}
+              >
+                {/* 提交 */}
+                
+                {/* 重置 */}
+                {/* 收起展开 */}
+                {unref(getFormProps).canCollapse && (
+                  <span onClick={doCollapse.bind(null, void 0)}>
+                    {overflow ? "展开" : "收起"}
+                  </span>
+                )}
+              </div>
+            ),
+          }}
         </NGridItem>
       );
     };
@@ -231,6 +262,8 @@ const BasicForm = defineComponent({
               {unref(getFormSchema).map((schema) =>
                 renderFormItemContent(schema)
               )}
+
+              {renderFormButtonGroup()}
             </Grid>
             {/* TODO 提交、重置、展开收缩 */}
             {/* .... */}

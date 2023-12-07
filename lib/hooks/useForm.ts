@@ -111,7 +111,10 @@ export const useForm = (props?: FormProps): [any, FormActionType] => {
       const form = await getForm();
       return form?.clearValidate();
     },
-  };
 
+    collapse: () => {
+      return unref(formInstance)?.collapse() as boolean;
+    },
+  };
   return [register, formMethods];
 };

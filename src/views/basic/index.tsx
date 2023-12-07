@@ -37,7 +37,7 @@ export default defineComponent({
               field: "type",
               component: "Select",
               label: "类型",
-              colProps: { span: 2 },
+              colProps: { span: 1 },
               componentProps: () => ({
                 placeholder: "请选择类型",
                 clearable: true,

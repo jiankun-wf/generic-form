@@ -57,10 +57,9 @@ export const code = `
       inline: false,
       size: "medium",
     });
-  </script>
 
-  <template>
-    <BasicForm @register="register">
-    </BasicForm>
-  </template>
+    return () => (
+      <BasicForm onRegister={register} /> 
+    )
+  </script>
 `;

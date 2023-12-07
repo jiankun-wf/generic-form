@@ -1,15 +1,15 @@
-import { defineComponent, Fragment, renderSlot } from 'vue';
-import { NFormItem, NTooltip } from 'naive-ui';
-import { ExclamationPointer } from './exclamation-pointer';
-import { ComponentMap } from '../helper/components';
+import { defineComponent, Fragment, renderSlot } from "vue";
+import { NFormItem, NTooltip } from "naive-ui";
+import { ExclamationPointer } from "./exclamation-pointer";
+import { ComponentMap } from "../helper/components";
 
-import type { PropType } from 'vue';
-import type { FormSchema, SetFormValue } from '../types';
-import type { FormActionType } from '../types/formAction';
-import { Component } from 'vue';
+import type { PropType } from "vue";
+import type { FormSchema, SetFormValue } from "../types";
+import type { FormActionType } from "../types/formAction";
+import { Component } from "vue";
 
 export const FormItem = defineComponent({
-  name: 'NaiveFormItem',
+  name: "NaiveFormItem",
   props: {
     schema: {
       type: Object as PropType<FormSchema>,
@@ -41,7 +41,7 @@ export const FormItem = defineComponent({
     modelValueName: {
       type: String as PropType<string>,
       default: undefined,
-    }
+    },
   },
   setup(props, { slots }) {
     const handleUpdateForm = (val: any) => {
@@ -59,7 +59,7 @@ export const FormItem = defineComponent({
         formActionType,
         formValues,
       } = props;
-      if (typeof componentProps === 'function') {
+      if (typeof componentProps === "function") {
         return componentProps({
           model: formModel,
           values: formValues,
@@ -95,21 +95,16 @@ export const FormItem = defineComponent({
           action: formActionType,
           schema: props.schema,
         });
-      };
+      }
 
       // 绑定v-model事件
-      const realName = itemModelValueName ?? formModelValueName ?? 'value'
+      const realName = itemModelValueName ?? formModelValueName ?? "value";
       const vModel = {
         [realName]: formValues[field],
         [`onUpdate:${realName}`]: handleUpdateForm.bind(null),
       };
 
-      return (
-        <ComponentRender
-          {...vModel}
-          {...componentProps}
-        />
-      );
+      return <ComponentRender {...vModel} {...componentProps} />;
     };
 
     const renderLabel = () => {
@@ -124,10 +119,10 @@ export const FormItem = defineComponent({
       if (!label) return undefined;
 
       const labelBuild = () => {
-        if (typeof label === 'function') {
+        if (typeof label === "function") {
           return label({ colon });
         }
-        return `${label}${colon ?? ''}`;
+        return `${label}${colon ?? ""}`;
       };
 
       const build = () => {

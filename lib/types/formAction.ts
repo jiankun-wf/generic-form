@@ -34,4 +34,7 @@ export interface FormActionType {
   // 其他项
   // 1. 是否处于整体loading状态
   setLoading: (flag: boolean) => Promise<void>;
+  // 2. 切换折叠/展开状态 并返回改变后状态 
+  //    传值时按照传值改变状态，不传值时，向相反状态改变
+  collapse: (collapsed?: boolean) => boolean;
 }

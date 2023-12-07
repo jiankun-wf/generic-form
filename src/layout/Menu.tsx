@@ -1,38 +1,57 @@
-import { NMenu, MenuOption } from "naive-ui";
-import { PropType, defineComponent, h } from "vue";
+import { NMenu } from "naive-ui";
+import { PropType, computed, defineComponent, h, unref } from "vue";
+import { routes } from "@/router/modules";
+import { RouteRecordRaw } from "vue-router";
+import { useRouter } from 'vue-router';
 
 export const LayoutMenu = defineComponent({
-    name: 'LayoutMenu',
-    props: {
-      collapsed: {
-        type: Boolean as PropType<boolean>,
-        default: false,
-      },
+  name: "LayoutMenu",
+  props: {
+    collapsed: {
+      type: Boolean as PropType<boolean>,
+      default: false,
     },
-    setup(props) {
+  },
+  setup(props) {
+    const { currentRoute, push } = useRouter();
+    const resolveRouteChildren = (children?: RouteRecordRaw[]) => {
+      return (children ?? []).map((item) => {
+        const { path, meta } = item;
+        return {
+          label: meta?.title,
+          show: meta?.hidden !== true,
+          key: path,
+        };
+      });
+    };
 
-       const menuOptions: MenuOption[] = [
-        {
-            label: () => h('span', { class: 'text-red-400' }, '特别注意'),
-            key: 'must-notice',
-            type: 'group',
-            children: [
-                {
-                    label: '必须注册组件映射',
-                    key: 'must-reigster',
-                },
-                {
-                    label: '可单独添加',
-                    key: 'can-add-alone',
-                }
-            ]
-        }
-       ]
+    const getRoutesMenus = computed(() => {
+      return routes.map((item) => {
+        const { path, meta, children } = item;
+        return {
+          label: meta?.title,
+          show: meta?.hidden !== true,
+          key: path,
+          children: resolveRouteChildren(children),
+        };
+      });
+    });
 
-       return () => (
-         <NMenu collapsed={props.collapsed} options={menuOptions} collapsedWidth={12}>
-
-         </NMenu>
-       ) 
+    const handleJump = (path: string) => {
+      push({
+        path,
+      })
     }
-})
+
+    return () => (
+      <NMenu
+        collapsed={props.collapsed}
+        options={unref(getRoutesMenus)}
+        collapsedWidth={12}
+        value={unref(currentRoute).path}
+        defaultExpandAll
+        onUpdate:value={handleJump}
+      ></NMenu>
+    );
+  },
+});

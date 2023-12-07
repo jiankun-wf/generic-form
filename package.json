@@ -23,7 +23,7 @@
     "rollup-plugin-visualizer": "^5.9.2",
     "ts-morph": "^19.0.0",
     "ts-node": "^10.9.1",
-    "typescript": "^5.0.2",
+    "typescript": "5.2.2",
     "unocss": "^0.53.5",
     "vite": "^4.4.0",
     "vue-router": "^4.2.4",

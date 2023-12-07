@@ -17,7 +17,7 @@ export const useFormValues = ({
   props: ComputedRef<FormProps>;
 }) => {
   const setFieldValue = (key: string, value: any) => {
-    formModel[key] = value;
+    Reflect.set(formModel, key, value);
     return { key, value, values: formValues };
   };
 

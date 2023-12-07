@@ -9,7 +9,7 @@ import { ExtractThemeOverrides } from "naive-ui/es/_mixins/use-theme";
 import { GlobalThemeWithoutCommon } from "naive-ui/es/config-provider/src/internal-interface";
 import { Theme } from "naive-ui/es/_mixins/use-theme";
 
-import type { CSSProperties, VNode } from "vue";
+import type { CSSProperties, Component, VNode } from "vue";
 import type { FormActionType } from "./formAction";
 import type { VNodeChild } from "vue";
 
@@ -32,6 +32,17 @@ export interface FormProps {
   layout?: string;
   //   表单以及内部组件大小
   size?: import("./Rule").FormSize;
+
+  // 是否可折叠
+  canCollapse?: boolean;
+  // 收起最小行数
+  collapsedRows?: number;
+  // 是否折叠
+  collapsed?: boolean;
+  // 是否展示功能按钮组
+  showActions?: boolean;
+  // 功能按钮组布局配置
+  actionGridProps?: Omit<GridItemProps, "collapsed" | "collapsedRows">;
   //   是否展示功能Button组
   // showActionButtonGroup?: boolean;
   // // 是否展示重置按钮
@@ -49,11 +60,9 @@ export interface FormProps {
   // // 重置按钮text
   // resetButtonText?: string;
   //   行布局规则
-  gridProps?: GridProps;
+  gridProps?: Omit<GridProps, "collapsed" | "collapsedRows">;
   //   行布局样式
   baseGridStyle?: CSSProperties;
-
-  collapsedRows?: number;
   // 是否显示必填
   showRequireMark?: boolean;
   // 必填显示位置
@@ -165,7 +174,10 @@ export interface FormSchema<
     | boolean
     | SchemaFunctionalCall<Pick<SchemaCallParams, "values" | "field">, boolean>;
   // 自定义content渲染。需要自己包含FormItem标签；渲染优先级：刘备（大哥）
-  contentRender?: SchemaFunctionalCall<SchemaCallParams, VNode | string>;
+  contentRender?: SchemaFunctionalCall<
+    SchemaCallParams & { Grid: Component; FormItem: Component },
+    VNode | string
+  >;
   // slot名字； 渲染优先级：关羽（二弟）
   slot?: string;
   //
@@ -185,3 +197,15 @@ export type FormContext = {
   schemas: FormSchema[];
   action: FormActionType;
 };
+
+export type EmitTypes = (
+  event:
+    | "register"
+    | "schema-change"
+    | "validate-error"
+    | "submit"
+    | "collapse-change"
+    | "reset"
+    | "clear-validate",
+  ...args: any[]
+) => void;

@@ -87,8 +87,8 @@ export const BasicFormPorps = {
   // },
   //grid 配置
   gridProps: {
-    type: Object as PropType<GridProps>,
-    default: () => ({ cols: 24, collapsed: false, xGap: 12, yGap: 12 }),
+    type: Object as PropType<Omit<GridProps, "collapsed" | "collapsedRows">>,
+    default: () => ({ cols: 24, xGap: 12, yGap: 12 }),
   },
   //gi配置
   giProps: {
@@ -109,6 +109,18 @@ export const BasicFormPorps = {
   collapsedRows: {
     type: Number,
     default: 1,
+  },
+  // 是否展示操作集合
+  showActions: {
+    type: Boolean,
+    default: true,
+  },
+  // 操作按钮布局
+  actionGridProps: {
+    type: Object as PropType<
+      Omit<GridItemProps, "collapsed" | "collapsedRows">
+    >,
+    default: () => ({ span: 24 }),
   },
 
   loading: {
