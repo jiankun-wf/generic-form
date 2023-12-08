@@ -27,7 +27,7 @@
       "noImplicitReturns": false,
       "allowUnusedLabels": true,
       "allowUnreachableCode": true,
-      "outDir": "dist/types"
+      "outDir": "npmrelease/types"
     },
     "include": ["lib/**/*.ts", "lib/**/*.d.ts", "lib/**/*.tsx", "lib/**/*.vue"],
     "references": [{ "path": "./tsconfig.node.json" }]

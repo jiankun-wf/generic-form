@@ -1,4 +1,4 @@
-import { buildComponentMap } from "../../lib";
+import { buildComponentMap } from "generic-form-vue-next";
 import { type ComponentType } from "./components";
 
 import {

@@ -22,7 +22,6 @@ import {
   NGridItem,
   NSpin,
   NConfigProvider,
-  NFormItem,
 } from "naive-ui";
 // hooks
 import { useFormRef } from "./hooks/useFormRef";
@@ -180,7 +179,6 @@ const BasicForm = defineComponent({
           action: formActionType,
           schema,
           Grid: NGridItem,
-          FormItem: NFormItem,
         });
       }
 
@@ -226,7 +224,7 @@ const BasicForm = defineComponent({
                 }}
               >
                 {/* 提交 */}
-                
+
                 {/* 重置 */}
                 {/* 收起展开 */}
                 {unref(getFormProps).canCollapse && (

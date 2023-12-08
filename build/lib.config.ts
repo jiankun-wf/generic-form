@@ -27,6 +27,6 @@ export default defineConfig({
         },
       },
     },
-    outDir: "dist",
+    outDir: "npmrelease/dist",
   },
 });

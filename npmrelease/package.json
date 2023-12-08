@@ -1,0 +1,30 @@
+{
+  "name": "generic-form-vue-next",
+  "version": "0.4.0",
+  "description": "一个表单快速编写工具组件",
+  "main": "dist/cjs.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "module": "dist/es.js",
+  "types": "types/index.d.ts",
+  "unpkg": "dist/umd.js",
+  "keywords": [
+    "vue3",
+    "typescript",
+    "typescript-xml",
+    "naive-ui"
+  ],
+  "author": "jiankun wang",
+  "license": "ISC",
+  "dependencies": {
+    "vue": "^3.2.45"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jiankun-wf/generic-form"
+  },
+  "devDependencies": {
+    "naive-ui": "^2.34.4"
+  }
+}

@@ -175,7 +175,7 @@ export interface FormSchema<
     | SchemaFunctionalCall<Pick<SchemaCallParams, "values" | "field">, boolean>;
   // 自定义content渲染。需要自己包含FormItem标签；渲染优先级：刘备（大哥）
   contentRender?: SchemaFunctionalCall<
-    SchemaCallParams & { Grid: Component; FormItem: Component },
+    SchemaCallParams & { Grid: Component },
     VNode | string
   >;
   // slot名字； 渲染优先级：关羽（二弟）

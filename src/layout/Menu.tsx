@@ -1,8 +1,8 @@
 import { NMenu } from "naive-ui";
-import { PropType, computed, defineComponent, h, unref } from "vue";
+import { PropType, computed, defineComponent, unref } from "vue";
 import { routes } from "@/router/modules";
 import { RouteRecordRaw } from "vue-router";
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
 
 export const LayoutMenu = defineComponent({
   name: "LayoutMenu",
@@ -40,8 +40,8 @@ export const LayoutMenu = defineComponent({
     const handleJump = (path: string) => {
       push({
         path,
-      })
-    }
+      });
+    };
 
     return () => (
       <NMenu

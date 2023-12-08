@@ -1,4 +1,4 @@
-import { BasicForm, useForm, type FormSchema } from "../../../lib";
+import { BasicForm, useForm, type FormSchema } from "generic-form-vue-next";
 import type { ComponentType } from "../../config/components";
 import { DescriptionCard } from "../../components/DescriptionCard";
 import { code } from "../../codes/basic";
@@ -17,7 +17,7 @@ export default defineComponent({
         componentProps: {
           placeholder: "请输入姓名",
         },
-        rule: [{ required: true, message: "请输入姓名" }],
+        rule: [{ required: true, message: "请输入姓名", trigger: "change" }],
       },
       {
         field: "phone",
@@ -71,15 +71,22 @@ export default defineComponent({
           placeholder: "请选择xxx",
         },
       },
+      {
+        field: "test3",
+        component: "Input",
+        label: "测试",
+        colProps: { span: 1 },
+        componentProps: {
+          placeholder: "请选择xxx",
+        },
+      },
     ];
 
-    const [register, { updateFormSchema }] = useForm({
+    const [register] = useForm({
       gridProps: { cols: 4, xGap: 10 },
       labelWidth: "100px",
-      layout: "horizontal",
-      colon: "/",
       schemas,
-      labelPlacement: "left",
+      labelPlacement: "top",
       inline: false,
       size: "medium",
       collapsed: true,
