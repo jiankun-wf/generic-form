@@ -53,12 +53,4 @@ export const routes: RouteRecordRaw[] = [
       },
     ],
   },
-  {
-    path: "/text",
-    name: "CollapseTest",
-    component: () => import("@/views/test/collapse.vue"),
-    meta: {
-      title: "测试折叠",
-    },
-  },
 ];

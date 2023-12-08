@@ -147,6 +147,22 @@ const BasicForm = defineComponent({
       formPropsRef.value = deepMerge(unref(formPropsRef) || {}, formProps);
     };
 
+    const doSubmit = async () => {
+      try {
+        const values = await validate();
+        emit("submit", values);
+      } finally {
+      }
+    };
+
+    const doRest = async () => {
+      try {
+        await resetFields();
+        emit("reset");
+      } finally {
+      }
+    };
+
     const formActionType: Readonly<FormActionType> = {
       setProps: setProps.bind(null),
       setLoading: setLoading.bind(null),
@@ -224,8 +240,9 @@ const BasicForm = defineComponent({
                 }}
               >
                 {/* 提交 */}
-
+                <span onClick={doSubmit}>提交</span>
                 {/* 重置 */}
+                <span onClick={doRest}>重置</span>
                 {/* 收起展开 */}
                 {unref(getFormProps).canCollapse && (
                   <span onClick={doCollapse.bind(null, void 0)}>

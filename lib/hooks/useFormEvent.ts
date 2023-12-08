@@ -1,8 +1,8 @@
-import { unref } from 'vue';
-import type { FormInst } from 'naive-ui';
-import type { Ref } from 'vue';
-import type { ValidateError } from '../types/Rule';
-import { isArray, isString } from '../helper/is';
+import { unref } from "vue";
+import type { FormInst } from "naive-ui";
+import type { Ref } from "vue";
+import type { ValidateError } from "../types/Rule";
+import { isArray, isString } from "../helper/is";
 
 export const useFormEvent = ({
   emit,
@@ -23,14 +23,22 @@ export const useFormEvent = ({
     const form = unref(formRef);
     return new Promise<Record<string, any>>((resolve, reject) => {
       if (!form) {
-        reject({ error: 'instance error', message: 'not found form instance', body: null });
+        reject({
+          error: "instance error",
+          message: "not found form instance",
+          body: null,
+        });
         return;
       }
       form.validate((errors) => {
         if (!errors) {
           resolve(getFieldsValue());
         } else {
-          reject({ error: 'validate error', body: errors, message: 'validate not pass' });
+          reject({
+            error: "validate error",
+            body: errors,
+            message: "validate not pass",
+          });
         }
       });
     });
@@ -41,7 +49,11 @@ export const useFormEvent = ({
 
     return new Promise<boolean | ValidateError>((resolve) => {
       if (!form) {
-        resolve({ error: 'instance error', message: 'not found form instance', body: null });
+        resolve({
+          error: "instance error",
+          message: "not found form instance",
+          body: null,
+        });
         return;
       }
       form.validate(
@@ -68,17 +80,17 @@ export const useFormEvent = ({
 
   const resetFields = async () => {
     Object.keys(formModel).forEach((key) => {
-      formModel[key] = defaultValueRef.value[key];
+      formModel[key] = unref(defaultValueRef)[key];
     });
     clearValidate();
-    emit('reset', formValues);
+    emit("reset", formValues);
   };
 
   const clearValidate = async () => {
     const form = unref(formRef);
     if (!form) return;
     form?.restoreValidation();
-    emit('clear-validate');
+    emit("clear-validate");
   };
 
   return {

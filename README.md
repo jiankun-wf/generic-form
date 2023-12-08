@@ -22,10 +22,12 @@
 import { buildComponentMap } from "vue-generic-form-next";
 import { ElInput, ElSelect } from "element-plus";
 type ComponentType = "Input" | "Select";
-buildComponentMap<ComponentType>([
+buildComponentMap <
+  ComponentType >
+  [
     ["Input", ElInput],
     ["Select", ElSelect],
-  ]);
+  ];
 ```
 
 2.  在页面中使用
@@ -66,3 +68,8 @@ buildComponentMap<ComponentType>([
 ```
 
 3. 以上示例中，我们创建了一个基本的两列的栅格 Form，有一个输入框绑定 name 的值。
+
+4 node >= 20 时
+`pnpm run build:lib`
+5 node < 20 时
+`npm run build:lib-old`
